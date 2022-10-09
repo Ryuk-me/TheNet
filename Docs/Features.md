@@ -4,7 +4,7 @@
 
 
 > ## Modules
->>  Internet connection should be available before using the application, if not then give the option to exit the application.\
+>>  Internet connection should be available before using the application, if not then the option to exit the application will be provided.\
 >> onStart() - Check Version of the software; if it is outdated then give a popup to update.
 >> 1. ### Login Module
 >>> - [ ] Create Login Page
