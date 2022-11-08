@@ -16,5 +16,3 @@ include_directories(dependencies)
 
 ### Main Targets ###
 add_subdirectory(src)
-
-# target_link_libraries(TheNet LINK_PUBLIC sqlite3)
