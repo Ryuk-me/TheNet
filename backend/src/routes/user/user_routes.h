@@ -4,5 +4,5 @@
 class UserRoutes : public RouteCollection
 {
 public:
-    static void getRoutes(crow::SimpleApp &app, char db);
+    static void getRoutes(crow::SimpleApp &app, char& db);
 };
