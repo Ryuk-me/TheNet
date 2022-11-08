@@ -1,0 +1,3 @@
+[submodule "backend/depedencies/sqlite_orm"]
+	path = backend/depedencies/sqlite_orm
+	url = https://github.com/fnc12/sqlite_orm
