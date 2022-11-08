@@ -2,7 +2,7 @@
 #include <iostream>
 #include "./user_routes.h"
 
-void UserRoutes::getRoutes(crow::SimpleApp &app, char &db)
+void UserRoutes::getRoutes(crow::SimpleApp &app)
 {
     CROW_ROUTE(app, "/xt")
     ([]()

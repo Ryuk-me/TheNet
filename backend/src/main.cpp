@@ -2,16 +2,15 @@
 #include "crow.h"
 #include "config/ENV.h"
 #include <nlohmann/json.hpp>
-// #include "sqlite_orm/sqlite_orm.h"
+#include "sqlite_orm/sqlite_orm.h"
 #include "routes/user/user_routes.h"
 
 using json = nlohmann::json;
-// UserRoutes::getRoutes("app")
 
 int main()
 {
     crow::SimpleApp app; // define your crow application
-    UserRoutes::getRoutes(app, '1');
+    UserRoutes::getRoutes(app);
     // define your endpoint at the root directory
     // UserRoutes::getRoutes(app);
 
