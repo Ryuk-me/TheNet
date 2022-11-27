@@ -12,6 +12,7 @@ public:
         std::string uploaded_by;
         std::string subject_name;
         std::string subject_code;
+        std::string firebaseId;
         std::string date;
         std::string file_location;
         bool is_verified = false;
