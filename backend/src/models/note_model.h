@@ -13,7 +13,13 @@ public:
         std::string subject_name;
         std::string subject_code;
         std::string date;
+        std::string file_location;
         bool is_verified = false;
     };
-    // int insert
+
+    int insert_note(Note n, auto storage)
+    {
+        int id = storage.insert(n);
+        return id;
+    }
 };
