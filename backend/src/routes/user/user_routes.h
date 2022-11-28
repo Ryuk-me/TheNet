@@ -1,6 +1,9 @@
 #pragma once
 #include "../routes.h"
 #include "../../models/db.h"
+#include "../../utilities/errors.h"
+
+using crow::status;
 
 class UserRoutes : public RouteCollection
 {
@@ -12,10 +15,7 @@ public:
         if (req.method == crow::HTTPMethod::POST){
             auto body = crow::json::load(req.body);
             if(!body){
-                crow::json::wvalue INVALID_BODY({
-                    {"message" , "Invalid Body"}
-                });
-                res = crow::response(400, INVALID_BODY);
+                res = crow::response(status::BAD_REQUEST, ERROR::INVALID_BODY);
                 res.end();
                 return;
             }
@@ -26,18 +26,12 @@ public:
                 u.firebaseId = body["firebase_id"].s();
                 u.email = body["email"].s();
                 int id = db.insert_user(u,storage);
-                crow::json::wvalue DETAILS_ADDED({
-                    {"message" , "Details addded."}
-                });
-                res = crow::response(200,DETAILS_ADDED);
+                res = crow::response(crow::status::CREATED,ERROR::DETAILS_ADDED);
                 res.end();
                 return;
             }
             else{
-                crow::json::wvalue MALFORMED_REQUEST({
-                    {"message" , "Malformed request."}
-                });
-                res = crow::response(400,MALFORMED_REQUEST);
+                res = crow::response(status::BAD_REQUEST,ERROR::MALFORMED_REQUEST);
                 res.end();
                 return;
             }
@@ -48,10 +42,7 @@ public:
                 std::cout<<fbid;
                 auto u = db.get_user(fbid);
                 if(u.size() == 0){
-                    crow::json::wvalue USER_NOT_FOUND({
-                    {"message" , "User not found."}
-                });
-                    res = crow::response(200,USER_NOT_FOUND);
+                    res = crow::response(status::NOT_FOUND,ERROR::USER_NOT_FOUND);
                     res.end();
                     return;
                 }
@@ -62,16 +53,13 @@ public:
                     wv["firebase_id"] = user.firebaseId;
                     wv["course_name"] = user.courseName;
                     wv["email"] =user.email;
-                    res = crow::response(200,wv);
+                    res = crow::response(status::OK,wv);
                     res.end();
                     return;
                 }
                 
             }else{
-                crow::json::wvalue NOT_VALID_PARAMS({
-                    {"message" , "Not valid parameters."}
-                });
-                res = crow::response(400, NOT_VALID_PARAMS);
+                res = crow::response(status::BAD_REQUEST, ERROR::NOT_VALID_PARAMS);
                 res.end();
                 return;
             }
