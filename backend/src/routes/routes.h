@@ -1,5 +1,4 @@
 #define CROW_JSON_USE_MAP
-
 #pragma once
 #include "crow.h"
 

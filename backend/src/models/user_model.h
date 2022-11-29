@@ -1,3 +1,4 @@
+#pragma once
 #include "string"
 using namespace sqlite_orm;
 using namespace sqlite_orm;

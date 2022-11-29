@@ -1,3 +1,4 @@
+#pragma once
 #include "user_model.h"
 #include "note_model.h"
 
