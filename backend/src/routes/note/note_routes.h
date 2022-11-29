@@ -14,38 +14,139 @@ public:
     static void getRoutes(crow::SimpleApp &app, auto &storage, Database &db)
     {
 
-    CROW_ROUTE(app, "/addnote").methods(crow::HTTPMethod::POST)([&](const crow::request &req)
-                                                                        {
-    
-    crow::multipart::message msg(req);
-    for (int i = 0; i < msg.parts.size(); ++i) {
-		std::string name, filename, fileContent = msg.parts[i].body;
-       	for (auto it=msg.parts[i].headers.begin(); it != msg.parts[i].headers.end();++it) {
-			auto const &key = it->first;
-			auto const &value = it->second;
-			for(const auto &[k,v]: value.params){
-				if (k.compare("filename") == 0){
-            	    filename = v;
-	              } else if (k.compare("name") == 0){
-    	            name = v;
-        	      } else {
-            	    CROW_LOG_WARNING << "unknown key:" << k << " value:" << v
-                                 << " " << __FILE__ << " " << __func__ << " "
-                                 << __LINE__;
-				}
-            }
+        CROW_ROUTE(app, "/addnoteFile")
+            .methods(crow::HTTPMethod::POST)([&](const crow::request &req,
+                                                 crow::response &res)
+                                             {
 
-            if (!fs::is_directory("../notes_file") || !fs::exists("../notes_file")) { // Check if folder exists
-                fs::create_directory("../notes_file"); // create folder
+        crow::multipart::message msg(req);
+        std::string fbid = req.get_header_value("Authorization");
+        bool is_auth = true;
+        std::string path;
+        if (fbid.size() == 0) {
+          is_auth = false;
+        } else {
+          auto u = db.get_user(fbid);
+          if (u.size() == 0) {
+            is_auth = false;
+          }
+        }
+        if (!is_auth) {
+          res =
+            crow::response(status::UNAUTHORIZED, MESSAGE::UNAUTHORIZED_REQUEST);
+          res.end();
+          return;
+        }
+        for (int i = 0; i < msg.parts.size(); ++i) {
+          std::string name, filename, fileContent = msg.parts[i].body;
+          for (auto it = msg.parts[i].headers.begin();
+               it != msg.parts[i].headers.end(); ++it) {
+            auto const& key = it->first;
+            auto const& value = it->second;
+            for (const auto & [ k, v ] : value.params) {
+              if (k.compare("filename") == 0) {
+                filename = v;
+              } else if (k.compare("name") == 0) {
+                name = v;
+              } else {
+                CROW_LOG_WARNING << "unknown key:" << k << " value:" << v << " "
+                                 << __FILE__ << " " << __func__ << " "
+                                 << __LINE__;
+              }
             }
-            std::ofstream fd;
-            fd.open("../notes_file/" + filename, std::ios::out | std::ios::binary);
-            fd << msg.parts[i].body;
-            fd.close();
-       }
-       std::string path = "C:\\Users\\Ryuk\\Desktop\\TheNet\\backend\\notes_file\\" + std::string(filename);
-       std::cout<<path<<std::endl;
-   }
-    return "it works!"; });
+          }
+          if (filename.size() == 0) {
+            res = crow::response(status::BAD_REQUEST, MESSAGE::NO_FILE_PROVIDED);
+            res.end();
+            return;
+          }
+          std::string folder = "../notes_file/" + fbid;
+          if (!fs::is_directory(folder) ||
+              !fs::exists(folder)) {      // Check if folder exists
+            fs::create_directory(folder); // create folder
+          }
+          std::ofstream fd;
+          fd.open(folder + std::string("/") + filename,
+                  std::ios::out | std::ios::binary);
+          fd << msg.parts[i].body;
+          fd.close();
+          path =
+            "C:\\Users\\Ryuk\\Desktop\\TheNet\\backend\\notes_file\\" + fbid + "\\" +
+            std::string(filename);
+        }
+        res = CUSTOM_MESSAGE::custom_message(status::OK,path);
+        res.end();
+        return; });
+
+        CROW_ROUTE(app, "/addnoteJson")
+            .methods(crow::HTTPMethod::POST)(
+                [&](const crow::request &req, crow::response &res)
+                {
+                    std::string fbid = req.get_header_value("Authorization");
+                    bool is_auth = true;
+                    if (fbid.size() == 0)
+                    {
+                        is_auth = false;
+                    }
+                    else
+                    {
+                        auto u = db.get_user(fbid);
+                        if (u.size() == 0)
+                        {
+                            is_auth = false;
+                        }
+                    }
+                    if (!is_auth)
+                    {
+                        res =
+                            crow::response(status::UNAUTHORIZED, MESSAGE::UNAUTHORIZED_REQUEST);
+                        res.end();
+                        return;
+                    }
+
+                    auto body = crow::json::load(req.body);
+                    if (!body)
+                    {
+                        res = crow::response(status::BAD_REQUEST, MESSAGE::INVALID_BODY);
+                        res.end();
+                        return;
+                    }
+                    if (body.has("file_name") && body.has("subject_name") &&
+                        body.has("subject_code") && body.has("uploaded_by") &&
+                        body.has("date") && body.has("timestamp") &&
+                        body.has("is_verified") && body.has("file_location") &&
+                        body.has("firebase_id"))
+                    {
+                        Database::Note n;
+                        n.file_name = body["file_name"].s();
+                        n.subject_name = body["subject_name"].s();
+                        n.subject_code = body["subject_code"].s();
+                        n.uploaded_by = body["uploaded_by"].s();
+                        n.date = body["date"].s();
+                        n.timestamp = body["timestamp"].s();
+                        n.is_verified = body["is_verified"].b();
+                        n.file_location = body["file_location"].s();
+                        n.firebaseId = body["firebase_id"].s();
+                        try
+                        {
+                            int id = db.insert_note(n, storage);
+                        }
+                        catch (std::system_error &e)
+                        {
+                            res = CUSTOM_MESSAGE::custom_message(crow::status::CONFLICT, e.what());
+                            res.end();
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        res = crow::response(status::BAD_REQUEST, MESSAGE::MALFORMED_REQUEST);
+                        res.end();
+                        return;
+                    }
+                    res = crow::response(status::OK, MESSAGE::FILE_ADDED);
+                    res.end();
+                    return;
+                });
     };
 };

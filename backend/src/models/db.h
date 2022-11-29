@@ -24,7 +24,7 @@ public:
                                                make_column("uploaded_by", &Note::uploaded_by),
                                                make_column("subject_name", &Note::subject_name),
                                                make_column("subject_code", &Note::subject_code),
-                                               make_column("file_location", &Note::file_location),
+                                               make_column("file_location", &Note::file_location, unique()),
                                                make_column("is_verified", &Note::is_verified),
                                                make_column("date", &Note::date),
                                                foreign_key(&Note::firebaseId).references(&User::firebaseId)));

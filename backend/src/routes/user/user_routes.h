@@ -24,7 +24,7 @@ public:
                 auto body = crow::json::load(req.body);
                 if (!body)
                 {
-                    res = crow::response(status::BAD_REQUEST, ERROR::INVALID_BODY);
+                    res = crow::response(status::BAD_REQUEST, MESSAGE::INVALID_BODY);
                     res.end();
                     return;
                 }
@@ -41,17 +41,17 @@ public:
                     }
                     catch (std::system_error &e)
                     {
-                        res = CUSTOM_ERROR::custom_error(crow::status::CONFLICT, e.what());
+                        res = CUSTOM_MESSAGE::custom_message(crow::status::CONFLICT, e.what());
                         res.end();
                         return;
                     }
-                    res = crow::response(crow::status::CREATED, ERROR::DETAILS_ADDED);
+                    res = crow::response(crow::status::CREATED, MESSAGE::DETAILS_ADDED);
                     res.end();
                     return;
                 }
                 else
                 {
-                    res = crow::response(status::BAD_REQUEST, ERROR::MALFORMED_REQUEST);
+                    res = crow::response(status::BAD_REQUEST, MESSAGE::MALFORMED_REQUEST);
                     res.end();
                     return;
                 }
@@ -65,7 +65,7 @@ public:
                     auto u = db.get_user(fbid);
                     if (u.size() == 0)
                     {
-                        res = crow::response(status::NOT_FOUND, ERROR::USER_NOT_FOUND);
+                        res = crow::response(status::NOT_FOUND, MESSAGE::USER_NOT_FOUND);
                         res.end();
                         return;
                     }
@@ -84,7 +84,7 @@ public:
                 }
                 else
                 {
-                    res = crow::response(status::BAD_REQUEST, ERROR::NOT_VALID_PARAMS);
+                    res = crow::response(status::BAD_REQUEST, MESSAGE::NOT_VALID_PARAMS);
                     res.end();
                     return;
                 }
