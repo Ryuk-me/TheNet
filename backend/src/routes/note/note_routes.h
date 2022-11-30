@@ -12,7 +12,7 @@ namespace fs = std::filesystem;
 class NoteRoutes : public RouteCollection
 {
 public:
-  static void getRoutes(crow::SimpleApp &app, auto &storage, Database &db)
+  static void getRoutes(crow::App<crow::CORSHandler> &app, auto &storage, Database &db)
   {
     app.route_dynamic(std::string("/") + ENV::BASE_API_V1 +
                       std::string("/addnoteFile"))
