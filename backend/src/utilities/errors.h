@@ -12,6 +12,7 @@ namespace MESSAGE
     crow::json::wvalue UNAUTHORIZED_REQUEST({{"message", "Unauthorized request."}});
     crow::json::wvalue FILE_ADDED({{"message", "Note added."}});
     crow::json::wvalue FILE_ALREADY_EXIST({{"message", "This file already exist."}});
+    crow::json::wvalue NOTES_NOT_FOUND({{"message", "Notes not found"}});
 }
 
 namespace CUSTOM_MESSAGE

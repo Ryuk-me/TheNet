@@ -24,4 +24,5 @@ public:
         int id = storage.insert(n);
         return id;
     }
+
 };

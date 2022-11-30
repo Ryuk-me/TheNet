@@ -61,7 +61,11 @@ public:
                 if (req.url_params.get("id") != nullptr)
                 {
                     std::string fbid = req.url_params.get("id");
-                    std::cout << fbid;
+                    if(fbid.size() == 0){
+                        res = CUSTOM_MESSAGE::custom_message(status::BAD_REQUEST,"id not provided.");
+                        res.end();
+                        return;
+                    }      
                     auto u = db.get_user(fbid);
                     if (u.size() == 0)
                     {
