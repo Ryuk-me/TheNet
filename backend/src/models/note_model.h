@@ -16,7 +16,7 @@ public:
         std::string firebaseId;
         std::string date;
         std::string file_location;
-        bool is_verified = false;
+        bool is_verified = true;
     };
 
     int insert_note(Note n, auto storage)
