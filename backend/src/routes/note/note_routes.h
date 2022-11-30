@@ -1,7 +1,7 @@
 #pragma once
 #include "../routes.h"
 #include "../../models/db.h"
-#include "../../utilities/errors.h"
+#include "../../utilities/utility.h"
 #include "../../config/ENV.h"
 #include <filesystem>
 #include "vector"
@@ -156,12 +156,46 @@ public:
           res.end();
           return;
         }
-        if (req.url_params.get("subject") != nullptr) {
-          std::string subject_name = req.url_params.get("subject");
+
+        if (req.url_params.get("subject_code") != nullptr) {
+
+          std::string subject_code = req.url_params.get("subject_code");
+          std::cout << "code :" << subject_code;
+          if (subject_code.size() == 0) {
+            res = CUSTOM_MESSAGE::custom_message(status::BAD_REQUEST,
+                                                 "subject_code not provided.");
+            res.end();
+            return;
+          }
+          auto note = db.get_note_from_subject_code(subject_code);
+          if (note.size() == 0) {
+            res = crow::response(status::NOT_FOUND, MESSAGE::NOTES_NOT_FOUND);
+            res.end();
+            return;
+          }
+          std::vector<crow::json::wvalue> wv;
+          for (auto& n : note) {
+            wv.push_back(
+              crow::json::wvalue{ { "date", n.date },
+                                  { "subject_code", n.subject_code },
+                                  { "subject_name", n.subject_name },
+                                  { "uploaded_by", n.uploaded_by },
+                                  { "is_verified", n.is_verified },
+                                  { "file_locatiion", n.file_location },
+                                  { "file_name", n.file_name },
+                                  { "timestamp", n.timestamp } });
+          }
+          crow::json::wvalue x{ { "results", wv } };
+          res = crow::response(status::OK, x);
+          res.end();
+          return;
+        }
+        if (req.url_params.get("subject_name") != nullptr) {
+          std::string subject_name = req.url_params.get("subject_name");
           std::cout << "sub :" << subject_name;
           if (subject_name.size() == 0) {
             res = CUSTOM_MESSAGE::custom_message(status::BAD_REQUEST,
-                                                 "subject not provided.");
+                                                 "subject_name not provided.");
             res.end();
             return;
           }
@@ -192,6 +226,50 @@ public:
           res.end();
           return;
         }
+        return; });
+    CROW_ROUTE(app, "/notes")
+        .methods(crow::HTTPMethod::GET)([&](const crow::request &req,
+                                            crow::response &res)
+                                        {
+        std::string fbid = req.get_header_value("Authorization");
+        bool is_auth = true;
+        if (fbid.size() == 0) {
+          is_auth = false;
+        } else {
+          auto u = db.get_user(fbid);
+          if (u.size() == 0) {
+            is_auth = false;
+          }
+        }
+        if (!is_auth) {
+          res =
+            crow::response(status::UNAUTHORIZED, MESSAGE::UNAUTHORIZED_REQUEST);
+          res.end();
+          return;
+        }
+
+        auto note = db.get_all_notes();
+          if (note.size() == 0) {
+            res = crow::response(status::NOT_FOUND, MESSAGE::NOTES_NOT_FOUND);
+            res.end();
+            return;
+          }
+          std::vector<crow::json::wvalue> wv;
+          for (auto& n : note) {
+            wv.push_back(
+              crow::json::wvalue{ { "date", n.date },
+                                  { "subject_code", n.subject_code },
+                                  { "subject_name", n.subject_name },
+                                  { "uploaded_by", n.uploaded_by },
+                                  { "is_verified", n.is_verified },
+                                  { "file_locatiion", n.file_location },
+                                  { "file_name", n.file_name },
+                                  { "timestamp", n.timestamp } });
+          }
+          crow::json::wvalue x{ { "results", wv } };
+          res = crow::response(status::OK, x);
+          res.end();
+          return;
         return; });
   };
 };

@@ -49,4 +49,18 @@ public:
                        std::string("%") + subject_name + std::string("%"))));
         return note;
     }
+
+    auto get_note_from_subject_code(std::string subject_code)
+    {
+        auto storage = create_table();
+        auto note = storage.get_all<Note>(where(c(&Note::subject_code) == subject_code));
+        return note;
+    }
+
+    auto get_all_notes()
+    {
+        auto storage = create_table();
+        auto note = storage.get_all<Note>();
+        return note;
+    }
 };

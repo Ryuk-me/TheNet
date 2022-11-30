@@ -1,7 +1,7 @@
 #pragma once
 #include "../routes.h"
 #include "../../models/db.h"
-#include "../../utilities/errors.h"
+#include "../../utilities/utility.h"
 #include "../../config/ENV.h"
 
 using crow::status;
