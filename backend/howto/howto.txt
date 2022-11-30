@@ -1,0 +1,7 @@
+1. Clone this  repo https://github.com/CrowCpp/Crow and move include folder files to /usr/include
+2. Clone this repo https://github.com/fnc12/sqlite_orm and move include folder files to /usr/include
+3. install following dependencies in linux Os / WSL
+    - sudo apt install build-essential cmake sqlite3 libsqlite3-dev libboost-all-dev  libasio-dev
+4. make a build directory inside /TheNet/backend
+5. now goto build directory and use command "cmake .." and after that "make"
+6. To start the webserver use command "./src/TheNet" from build directory.
