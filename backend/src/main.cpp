@@ -16,10 +16,8 @@ int main()
 	auto &cors = app.get_middleware<crow::CORSHandler>();
 	cors
 		.global()
-		.methods("POST"_method, "GET"_method)
-		.prefix("/")
 		.origin("*");
-	
+
 	Database db;
 	auto storage = db.create_table();
 	UserRoutes::getRoutes(app, storage, db);
