@@ -85,6 +85,7 @@ ul li {
   justify-content: center;
   align-items: center;
   /* border: 2px solid white; */
+  /* background-color: rgb(45, 43, 43); */
   height: 48vh;
   width: 45vw;
   top: 30vh;
@@ -110,4 +111,29 @@ ul li {
 
 .photo {
   border-radius: 5vh;
+}
+
+.notesSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.notesFetched {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 15vh;
+  width: 20vh;
+  padding: 2vh;
+  /* border: 2px solid#b3b8bb; */
+  text-align: center;
+  overflow: hidden;
+}
+
+button{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }

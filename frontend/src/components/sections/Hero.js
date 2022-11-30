@@ -56,7 +56,8 @@ const Hero = ({
   );
 
   const signIn = async () => {
-    const result = signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+    window.location.reload();
     // navigate
   };
 
@@ -81,7 +82,7 @@ const Hero = ({
               <div className="reveal-from-bottom" data-reveal-delay="600">
                 <ButtonGroup>
                   <Button tag="a" color="primary" wideMobile href="">
-                    <Link onClick={signIn} to="../../Card">
+                    <Link onClick={signIn} to="../../Card.js">
                       Shall we?
                     </Link>
                   </Button>

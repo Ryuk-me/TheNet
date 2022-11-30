@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "axios-react": "^2.0.8"
+  }
+}

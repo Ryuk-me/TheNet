@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "./partials/Logo";
 import { auth, GoogleAuthProvider, provider } from "../../config/firebase";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signOut } from "firebase/auth";
 import Card from "../../views/Card";
 // const history = useHistory();
 
@@ -82,9 +82,19 @@ const Header = ({
     className
   );
 
+  const [signInBtn, signOutBtn] = useState("")
+  const notSignInBtn = () => {
+    signOutBtn("Sign Out")
+  }
+
+  useEffect(() => {
+    notSignInBtn();
+  }, [])
+
   const signIn = async () => {
     const result = await signInWithPopup(auth, provider);
-    // navigate("../../Card.js");
+    
+    window.location.reload();
   };
 
   return (
@@ -134,7 +144,7 @@ const Header = ({
                           className="button button-primary button-wide-mobile button-sm"
                           onClick={signIn}
                         >
-                          Sign In
+                          {signInBtn}
                         </Link>
                       </li>
                     </ul>
