@@ -14,7 +14,8 @@ class NoteRoutes : public RouteCollection
 public:
   static void getRoutes(crow::SimpleApp &app, auto &storage, Database &db)
   {
-    CROW_ROUTE(app, "/addnoteFile")
+    app.route_dynamic(std::string("/") + ENV::BASE_API_V1 +
+                      std::string("/addnoteFile"))
         .methods(crow::HTTPMethod::POST)([&](const crow::request &req,
                                              crow::response &res)
                                          {
@@ -78,7 +79,8 @@ public:
         res.end();
         return; });
 
-    CROW_ROUTE(app, "/addnoteJson")
+    app.route_dynamic(std::string("/") + ENV::BASE_API_V1 +
+                      std::string("/addnoteJson"))
         .methods(crow::HTTPMethod::POST)([&](const crow::request &req,
                                              crow::response &res)
                                          {
@@ -136,7 +138,9 @@ public:
         res = crow::response(status::OK, MESSAGE::FILE_ADDED);
         res.end();
         return; });
-    CROW_ROUTE(app, "/note")
+
+    app.route_dynamic(std::string("/") + ENV::BASE_API_V1 +
+                      std::string("/note"))
         .methods(crow::HTTPMethod::GET)([&](const crow::request &req,
                                             crow::response &res)
                                         {
@@ -227,7 +231,9 @@ public:
           return;
         }
         return; });
-    CROW_ROUTE(app, "/notes")
+
+    app.route_dynamic(std::string("/") + ENV::BASE_API_V1 +
+                      std::string("/notes"))
         .methods(crow::HTTPMethod::GET)([&](const crow::request &req,
                                             crow::response &res)
                                         {
