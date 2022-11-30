@@ -9,7 +9,7 @@ public:
     {
         int id = -1;
         std::string file_name;
-        std::string timestamp;
+        int timestamp;
         std::string uploaded_by;
         std::string subject_name;
         std::string subject_code;
@@ -24,5 +24,4 @@ public:
         int id = storage.insert(n);
         return id;
     }
-
 };

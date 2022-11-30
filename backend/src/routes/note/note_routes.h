@@ -116,7 +116,7 @@ public:
           n.subject_code = body["subject_code"].s();
           n.uploaded_by = body["uploaded_by"].s();
           n.date = body["date"].s();
-          n.timestamp = body["timestamp"].s();
+          n.timestamp = body["timestamp"].i();
           n.is_verified = body["is_verified"].b();
           n.file_location = body["file_location"].s();
           n.firebaseId = body["firebase_id"].s();
