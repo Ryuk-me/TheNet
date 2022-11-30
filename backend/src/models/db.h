@@ -15,7 +15,6 @@ public:
                        make_column("id", &User::id, autoincrement(), primary_key()),
                        make_column("name", &User::name),
                        make_column("firebase_id", &User::firebaseId, unique()),
-                       make_column("course_name", &User::courseName),
                        make_column("email", &User::email)),
             make_table(
                 "notes",

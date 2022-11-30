@@ -1,3 +1,4 @@
+0. Clone this repo with submodules using command "git clone --recurse-submodules -j8 https://github.com/Ryuk-me/TheNet"
 1. Clone this  repo https://github.com/CrowCpp/Crow and move include folder files to /usr/include
 2. Clone this repo https://github.com/fnc12/sqlite_orm and move include folder files to /usr/include
 3. install following dependencies in linux Os / WSL

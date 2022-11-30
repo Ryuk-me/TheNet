@@ -9,7 +9,6 @@ public:
     {
         int id = -1;
         std::string firebaseId;
-        std::string courseName;
         std::string email;
         std::string name;
     };

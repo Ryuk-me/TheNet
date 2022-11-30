@@ -24,11 +24,10 @@ public:
               res.end();
               return;
             }
-            if (body.has("name") && body.has("course_name") &&
+            if (body.has("name") &&
                 body.has("firebase_id") && body.has("email")) {
               Database::User u;
               u.name = body["name"].s();
-              u.courseName = body["course_name"].s();
               u.firebaseId = body["firebase_id"].s();
               u.email = body["email"].s();
               try {
@@ -71,7 +70,6 @@ public:
                   wv["id"] = user.id;
                   wv["name"] = user.name;
                   wv["firebase_id"] = user.firebaseId;
-                  wv["course_name"] = user.courseName;
                   wv["email"] = user.email;
                   res = crow::response(status::OK, wv);
                   res.end();
