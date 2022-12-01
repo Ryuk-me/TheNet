@@ -86,8 +86,13 @@ const Hero = ({
                       Shall we?
                     </Link>
                   </Button>
-                  <Button tag="a" color="dark" wideMobile href="#">
-                    Join Us
+                  <Button
+                    tag="a"
+                    color="dark"
+                    wideMobile
+                    href="https://github.com/Ryuk-me/TheNet"
+                  >
+                    View on GitHub
                   </Button>
                 </ButtonGroup>
               </div>

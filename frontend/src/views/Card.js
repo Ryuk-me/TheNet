@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 // import sections
 import FormHint from "../components/elements/FormHint";
 import FormLabel from "../components/elements/FormLabel";
@@ -14,72 +14,38 @@ import Home from "./Home";
 
 const Card = () => {
   const [user] = useAuthState(auth);
-  const [message, setMessage] = useState('');
-  const [updated, setUpdated] = useState('');
+  const [message, setMessage] = useState("");
+  const [updated, setUpdated] = useState("");
   const handlChange = (event) => {
     setMessage(event.target.value);
   };
   const [notes, fetchNotes] = useState([]);
   const fetchNotesOnPageLoad = () => {
     dataFetch();
-  }
-  const FileDownload = require('js-file-download')
+  };
+  const FileDownload = require("js-file-download");
 
   useEffect(() => {
     fetchNotesOnPageLoad();
-  }, [])
+  }, []);
 
   function dataFetch() {
     fetch("http://localhost:5050/api/v1/notes", {
       method: "GET",
       headers: {
-        Authorization: "123"
+        Authorization: "123",
       },
-    }).then((data => data.json())).then((data => { fetchNotes(data.results) }));
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        fetchNotes(data.results);
+      });
   }
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       dataFetch();
     }
-  }
-  // function download(){
-  //   axios({
-  //     url:"http://localhost:5050/api/v1/note?subject_name=anal",
-  //     method:"GET",
-  //     responseType:"blob",
-  //     Authorization:"123"
-  //   })
-  //   .then((response)=>
-  //   {
-  //     // FileDownload(response.data, 'image.png')
-  //     const href = URL.createObjectURL(response.data)
-  //     const link = document.createElement("a")
-  //     link.href = href
-  //     link.setAttribute("download","file1.jpg")
-  //     document.body.appendChild(link)
-  //     link.click()
-  //   })
-  // }
-
-  // function download() {
-  //   fetch("http://localhost:5050/api/v1/note?subject_name=anal", {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: "123"
-  //     }
-  //   }).then((data) => data.json()).then((data => {
-  //     c
-  //   }))
-  // }
-  function download(d) {
-    console.log('event', d)
-    // const href = URL.createObjectURL(id)
-    // const link = document.createElement("a")
-    // link.href = href
-    // link.setAttribute("download", "file1.jpg")
-    // document.body.appendChild(link)
-    // link.click()
-  }
+  };
 
   return (
     <>
@@ -126,17 +92,20 @@ const Card = () => {
           {/* <i className="bx bx-search"></i> */}
 
           <div className="notesSection">
-            {notes.length > 0 &&
-
-              <ul className="notesSection">{
-                notes.map(post => <li className="notesFetched" key={post.file_name}>{post.file_name}
-                  <Button tag="a" color="primary" wideMobile>
-                    <a href={post.file_location} download={post.file_name}><button>Download</button></a>
-                  </Button>
-                </li>)
-              }  </ul>
-            }
-
+            {notes.length > 0 && (
+              <ul className="notesSection">
+                {notes.map((post) => (
+                  <li className="notesFetched" key={post.file_name}>
+                    {post.file_name}
+                    <Button tag="a" color="primary" wideMobile>
+                      <a href={post.file_location} download={post.file_name}>
+                        <button>Download</button>
+                      </a>
+                    </Button>
+                  </li>
+                ))}{" "}
+              </ul>
+            )}
           </div>
         </div>
       </div>
