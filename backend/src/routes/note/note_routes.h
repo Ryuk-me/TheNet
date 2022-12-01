@@ -21,6 +21,7 @@ public:
                                          {
 
         crow::multipart::message msg(req);
+        // Authentication
         std::string fbid = req.get_header_value("Authorization");
         bool is_auth = true;
         std::string path;
@@ -38,6 +39,9 @@ public:
           res.end();
           return;
         }
+        // Authentication ended
+
+        // It will Download the sent file
         for (int i = 0; i < msg.parts.size(); ++i) {
           std::string name, filename, fileContent = msg.parts[i].body;
           for (auto it = msg.parts[i].headers.begin();
@@ -62,6 +66,7 @@ public:
             res.end();
             return;
           }
+          // file will be saved here
           std::string folder = "../notes_file/" + fbid;
           if (!fs::is_directory(folder) ||
               !fs::exists(folder)) {      // Check if folder exists
@@ -75,6 +80,7 @@ public:
           path = "C:\\Users\\Ryuk\\Desktop\\TheNet\\backend\\notes_file\\" +
                  fbid + "\\" + std::string(filename);
         }
+        // path of the file will be sent back
         res = CUSTOM_MESSAGE::custom_message(status::OK, path);
         res.end();
         return; });
@@ -254,7 +260,7 @@ public:
           return;
         }
 
-        auto note = db.get_all_notes();
+        auto note = db.get_all_notes(); // it will fetch all notes from db
           if (note.size() == 0) {
             res = crow::response(status::NOT_FOUND, MESSAGE::NOTES_NOT_FOUND);
             res.end();
@@ -272,7 +278,7 @@ public:
                                   { "file_name", n.file_name },
                                   { "timestamp", n.timestamp } });
           }
-          crow::json::wvalue x{ { "results", wv } };
+          crow::json::wvalue x{ { "results", wv } }; // All notes will be sent back as a dictionary with a key result which is a list of json object
           res = crow::response(status::OK, x);
           res.end();
           return;
