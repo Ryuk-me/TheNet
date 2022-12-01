@@ -42,25 +42,44 @@ const Card = () => {
       dataFetch();
     }
   }
-  function download(){
-    axios({
-      url:"http://localhost:5050/api/v1/note?subject_name=anal",
-      method:"GET",
-      responseType:"blob",
-      Authorization:"123"
-    })
-    .then((response)=>
-    {
-      // FileDownload(response.data, 'image.png')
-      const href = URL.createObjectURL(response.data)
-      const link = document.createElement("a")
-      link.href = href
-      link.setAttribute("download","file1.jpg")
-      document.body.appendChild(link)
-      link.click()
-    })
-  }
+  // function download(){
+  //   axios({
+  //     url:"http://localhost:5050/api/v1/note?subject_name=anal",
+  //     method:"GET",
+  //     responseType:"blob",
+  //     Authorization:"123"
+  //   })
+  //   .then((response)=>
+  //   {
+  //     // FileDownload(response.data, 'image.png')
+  //     const href = URL.createObjectURL(response.data)
+  //     const link = document.createElement("a")
+  //     link.href = href
+  //     link.setAttribute("download","file1.jpg")
+  //     document.body.appendChild(link)
+  //     link.click()
+  //   })
+  // }
 
+  // function download() {
+  //   fetch("http://localhost:5050/api/v1/note?subject_name=anal", {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: "123"
+  //     }
+  //   }).then((data) => data.json()).then((data => {
+  //     c
+  //   }))
+  // }
+  function download(d) {
+    console.log('event', d)
+    // const href = URL.createObjectURL(id)
+    // const link = document.createElement("a")
+    // link.href = href
+    // link.setAttribute("download", "file1.jpg")
+    // document.body.appendChild(link)
+    // link.click()
+  }
 
   return (
     <>
@@ -112,9 +131,9 @@ const Card = () => {
               <ul className="notesSection">{
                 notes.map(post => <li className="notesFetched" key={post.file_name}>{post.file_name}
                   <Button tag="a" color="primary" wideMobile>
-                    <button onClick={download}>Download</button>
-                  </Button>                  
-                  </li>)
+                    <a href={post.file_location} download={post.file_name}><button>Download</button></a>
+                  </Button>
+                </li>)
               }  </ul>
             }
 

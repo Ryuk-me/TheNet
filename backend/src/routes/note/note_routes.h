@@ -185,7 +185,7 @@ public:
                                   { "subject_name", n.subject_name },
                                   { "uploaded_by", n.uploaded_by },
                                   { "is_verified", n.is_verified },
-                                  { "file_locatiion", n.file_location },
+                                  { "file_location", n.file_location },
                                   { "file_name", n.file_name },
                                   { "timestamp", n.timestamp } });
           }
@@ -217,7 +217,7 @@ public:
                                   { "subject_name", n.subject_name },
                                   { "uploaded_by", n.uploaded_by },
                                   { "is_verified", n.is_verified },
-                                  { "file_locatiion", n.file_location },
+                                  { "file_location", n.file_location },
                                   { "file_name", n.file_name },
                                   { "timestamp", n.timestamp } });
           }
@@ -268,7 +268,7 @@ public:
                                   { "subject_name", n.subject_name },
                                   { "uploaded_by", n.uploaded_by },
                                   { "is_verified", n.is_verified },
-                                  { "file_locatiion", n.file_location },
+                                  { "file_location", n.file_location },
                                   { "file_name", n.file_name },
                                   { "timestamp", n.timestamp } });
           }
