@@ -49,6 +49,7 @@ const Button = ({
     <Component
       {...props}
       className={classes}
+      target="_blank"
       disabled={disabled}
     />
   );

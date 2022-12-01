@@ -33,7 +33,7 @@ const Card = () => {
     fetch("http://localhost:5050/api/v1/notes", {
       method: "GET",
       headers: {
-        Authorization: "123",
+        Authorization: "1234",
       },
     })
       .then((data) => data.json())
@@ -92,7 +92,7 @@ const Card = () => {
           {/* <i className="bx bx-search"></i> */}
 
           <div className="notesSection">
-            {notes.length > 0 && (
+            {notes?.length > 0 && (
               <ul className="notesSection">
                 {notes.map((post) => (
                   <li className="notesFetched" key={post.file_name}>

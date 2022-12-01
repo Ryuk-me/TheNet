@@ -7,8 +7,6 @@
 #include "routes/user/user_routes.h"
 #include "routes/note/note_routes.h"
 
-namespace fs = std::filesystem;
-
 int main()
 {
 	// Enable CORS
