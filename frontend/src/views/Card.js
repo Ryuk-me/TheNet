@@ -26,7 +26,7 @@ const Card = () => {
   const FileDownload = require("js-file-download");
 
   useEffect(() => {
-    fetchNotesOnPageLoad();
+    fetchNotesOnPageLoad(); 
   }, []);
 
   function dataFetch() {
