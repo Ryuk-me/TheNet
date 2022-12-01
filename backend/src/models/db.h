@@ -7,6 +7,7 @@ using namespace sqlite_orm;
 class Database : public Users, public Notes
 {
 public:
+    // Creating table
     auto create_table()
     {
         auto storage = make_storage(
@@ -33,6 +34,7 @@ public:
         return storage;
     }
 
+    // this function will return a user from the given id
     auto get_user(std::string id)
     {
         auto storage = create_table();
@@ -40,6 +42,7 @@ public:
         return user;
     }
 
+    // this function will return notes from subject_name
     auto get_note_from_subject_name(std::string subject_name)
     {
         auto storage = create_table();
@@ -49,6 +52,7 @@ public:
         return note;
     }
 
+    // this function will return notes from subject_code
     auto get_note_from_subject_code(std::string subject_code)
     {
         auto storage = create_table();
@@ -56,6 +60,7 @@ public:
         return note;
     }
 
+    // this function will return all available Notes
     auto get_all_notes()
     {
         auto storage = create_table();

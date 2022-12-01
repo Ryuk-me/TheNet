@@ -5,6 +5,7 @@ class Notes
 {
 
 public:
+    // Note Schema for db
     struct Note
     {
         int id = -1;
@@ -19,6 +20,7 @@ public:
         bool is_verified = true;
     };
 
+    //Insert a new note to database
     int insert_note(Note n, auto storage)
     {
         int id = storage.insert(n);

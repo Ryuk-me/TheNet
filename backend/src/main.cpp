@@ -18,10 +18,10 @@ int main()
 		.global()
 		.origin("*");
 
-	Database db;
-	auto storage = db.create_table();
-	UserRoutes::getRoutes(app, storage, db);
-	NoteRoutes::getRoutes(app, storage, db);
+	Database db; // creating a database object
+	auto storage = db.create_table(); // creating table
+	UserRoutes::getRoutes(app, storage, db); // user routes 
+	NoteRoutes::getRoutes(app, storage, db); // notes routes
 
 	app.port(ENV::PORT).multithreaded().run();
 }
